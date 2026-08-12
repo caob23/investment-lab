@@ -5,7 +5,7 @@
   "market": "CN",
   "currency": "CNY",
   "data_start": "2025-04-18",
-  "data_end": "2026-08-11",
+  "data_end": "2026-08-12",
   "source": "tencent",
   "data": [
     {
@@ -1287,6 +1287,10 @@
     {
       "date": "2026-08-11",
       "price": 3934.09
+    },
+    {
+      "date": "2026-08-12",
+      "price": 3942.12
     }
   ]
 }

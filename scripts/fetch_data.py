@@ -41,22 +41,58 @@ ASSETS_TO_FETCH = [
     {"symbol": "399006", "type": "index", "name": "创业板指"},
     {"symbol": "000016", "type": "index", "name": "上证50"},
     {"symbol": "000688", "type": "index", "name": "科创50"},
+    {"symbol": "399673", "type": "index", "name": "创业板50"},
 
-    # === A股股票（示例） ===
-    {"symbol": "000001", "market": "sz", "type": "stock", "name": "平安银行"},
+    # === A股股票 ===
+    # 金融
+    {"symbol": "601318", "market": "sh", "type": "stock", "name": "中国平安"},
+    {"symbol": "600036", "market": "sh", "type": "stock", "name": "招商银行"},
+    {"symbol": "601398", "market": "sh", "type": "stock", "name": "工商银行"},
+    {"symbol": "600030", "market": "sh", "type": "stock", "name": "中信证券"},
+    {"symbol": "300059", "market": "sz", "type": "stock", "name": "东方财富"},
+    # 消费
     {"symbol": "600519", "market": "sh", "type": "stock", "name": "贵州茅台"},
     {"symbol": "000858", "market": "sz", "type": "stock", "name": "五粮液"},
+    {"symbol": "002714", "market": "sz", "type": "stock", "name": "牧原股份"},
+    {"symbol": "601888", "market": "sh", "type": "stock", "name": "中国中免"},
+    # 科技
     {"symbol": "300750", "market": "sz", "type": "stock", "name": "宁德时代"},
-    {"symbol": "601318", "market": "sh", "type": "stock", "name": "中国平安"},
+    {"symbol": "002415", "market": "sz", "type": "stock", "name": "海康威视"},
+    {"symbol": "002230", "market": "sz", "type": "stock", "name": "科大讯飞"},
+    {"symbol": "688981", "market": "sh", "type": "stock", "name": "中芯国际"},
+    {"symbol": "000725", "market": "sz", "type": "stock", "name": "京东方A"},
+    # 制造
+    {"symbol": "600031", "market": "sh", "type": "stock", "name": "三一重工"},
+    {"symbol": "002594", "market": "sz", "type": "stock", "name": "比亚迪"},
+    {"symbol": "601012", "market": "sh", "type": "stock", "name": "隆基绿能"},
+    {"symbol": "600585", "market": "sh", "type": "stock", "name": "海螺水泥"},
+    # 医药
+    {"symbol": "600276", "market": "sh", "type": "stock", "name": "恒瑞医药"},
+    {"symbol": "300760", "market": "sz", "type": "stock", "name": "迈瑞医疗"},
+    # 地产
+    {"symbol": "000002", "market": "sz", "type": "stock", "name": "万科A"},
+    # 银行（原有）
+    {"symbol": "000001", "market": "sz", "type": "stock", "name": "平安银行"},
 
     # === ETF ===
-    {"symbol": "510050", "market": "sh", "type": "etf", "name": "上证50ETF"},
-    {"symbol": "510300", "market": "sh", "type": "etf", "name": "沪深300ETF"},
-    {"symbol": "510500", "market": "sh", "type": "etf", "name": "中证500ETF"},
-    {"symbol": "159915", "market": "sz", "type": "etf", "name": "创业板ETF"},
-    {"symbol": "588000", "market": "sh", "type": "etf", "name": "科创50ETF"},
+    # 宽基
+    {"symbol": "510300", "market": "sh", "type": "etf", "name": "沪深300ETF(华泰柏瑞)"},
+    {"symbol": "510500", "market": "sh", "type": "etf", "name": "中证500ETF(南方)"},
+    {"symbol": "510050", "market": "sh", "type": "etf", "name": "上证50ETF(华夏)"},
+    {"symbol": "159915", "market": "sz", "type": "etf", "name": "创业板ETF(易方达)"},
+    {"symbol": "588000", "market": "sh", "type": "etf", "name": "科创50ETF(华夏)"},
+    {"symbol": "159919", "market": "sz", "type": "etf", "name": "沪深300ETF(嘉实)"},
+    {"symbol": "512100", "market": "sh", "type": "etf", "name": "中证1000ETF(南方)"},
+    # 行业
+    {"symbol": "512880", "market": "sh", "type": "etf", "name": "证券ETF(国泰)"},
+    {"symbol": "512690", "market": "sh", "type": "etf", "name": "酒ETF(鹏华)"},
+    {"symbol": "159995", "market": "sz", "type": "etf", "name": "芯片ETF(华夏)"},
+    {"symbol": "512170", "market": "sh", "type": "etf", "name": "医疗ETF(华宝)"},
+    # 跨境
+    {"symbol": "159866", "market": "sz", "type": "etf", "name": "日经ETF(工银瑞信)"},
+    {"symbol": "513100", "market": "sh", "type": "etf", "name": "纳指ETF(国泰)"},
 
-    # === 基金 ===
+    # === 基金（天天基金接口仅返回最新净值，历史数据不足） ===
     {"symbol": "001512", "type": "fund", "name": "易方达中证海外互联ETF联接"},
     {"symbol": "110011", "type": "fund", "name": "易方达中小盘混合"},
     {"symbol": "161725", "type": "fund", "name": "招商中证白酒指数"},
