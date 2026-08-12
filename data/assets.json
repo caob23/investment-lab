@@ -1,0 +1,203 @@
+[
+  {
+    "symbol": "000300",
+    "name": "沪深300",
+    "type": "index",
+    "market": "cn",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "000905",
+    "name": "中证500",
+    "type": "index",
+    "market": "cn",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "000852",
+    "name": "中证1000",
+    "type": "index",
+    "market": "cn",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "000001",
+    "name": "上证指数",
+    "type": "index",
+    "market": "cn",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "399001",
+    "name": "深证成指",
+    "type": "index",
+    "market": "cn",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "399006",
+    "name": "创业板指",
+    "type": "index",
+    "market": "cn",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "000016",
+    "name": "上证50",
+    "type": "index",
+    "market": "cn",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "000688",
+    "name": "科创50",
+    "type": "index",
+    "market": "cn",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "000001",
+    "name": "平安银行",
+    "type": "stock",
+    "market": "sz",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "600519",
+    "name": "贵州茅台",
+    "type": "stock",
+    "market": "sh",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "000858",
+    "name": "五粮液",
+    "type": "stock",
+    "market": "sz",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "300750",
+    "name": "宁德时代",
+    "type": "stock",
+    "market": "sz",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "601318",
+    "name": "中国平安",
+    "type": "stock",
+    "market": "sh",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "510050",
+    "name": "上证50ETF",
+    "type": "etf",
+    "market": "sh",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "510300",
+    "name": "沪深300ETF",
+    "type": "etf",
+    "market": "sh",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "510500",
+    "name": "中证500ETF",
+    "type": "etf",
+    "market": "sh",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "159915",
+    "name": "创业板ETF",
+    "type": "etf",
+    "market": "sz",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "588000",
+    "name": "科创50ETF",
+    "type": "etf",
+    "market": "sh",
+    "data_start": "2025-04-18",
+    "data_end": "2026-08-11",
+    "data_points": 320,
+    "status": "ok"
+  },
+  {
+    "symbol": "001512",
+    "name": "易方达中证海外互联ETF联接",
+    "type": "fund",
+    "market": "cn",
+    "status": "unavailable"
+  },
+  {
+    "symbol": "110011",
+    "name": "易方达中小盘混合",
+    "type": "fund",
+    "market": "cn",
+    "status": "unavailable"
+  },
+  {
+    "symbol": "161725",
+    "name": "招商中证白酒指数",
+    "type": "fund",
+    "market": "cn",
+    "status": "unavailable"
+  }
+]

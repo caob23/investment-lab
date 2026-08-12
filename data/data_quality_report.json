@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-08-12 09:16:46",
+  "total_files": 18,
+  "total_issues": 0,
+  "reports": [
+    {
+      "filename": "etf_159915.json",
+      "symbol": "159915",
+      "issues": []
+    },
+    {
+      "filename": "etf_510050.json",
+      "symbol": "510050",
+      "issues": []
+    },
+    {
+      "filename": "etf_510300.json",
+      "symbol": "510300",
+      "issues": []
+    },
+    {
+      "filename": "etf_510500.json",
+      "symbol": "510500",
+      "issues": []
+    },
+    {
+      "filename": "etf_588000.json",
+      "symbol": "588000",
+      "issues": []
+    },
+    {
+      "filename": "index_000001.json",
+      "symbol": "000001",
+      "issues": []
+    },
+    {
+      "filename": "index_000016.json",
+      "symbol": "000016",
+      "issues": []
+    },
+    {
+      "filename": "index_000300.json",
+      "symbol": "000300",
+      "issues": []
+    },
+    {
+      "filename": "index_000688.json",
+      "symbol": "000688",
+      "issues": []
+    },
+    {
+      "filename": "index_000852.json",
+      "symbol": "000852",
+      "issues": []
+    },
+    {
+      "filename": "index_000905.json",
+      "symbol": "000905",
+      "issues": []
+    },
+    {
+      "filename": "index_399001.json",
+      "symbol": "399001",
+      "issues": []
+    },
+    {
+      "filename": "index_399006.json",
+      "symbol": "399006",
+      "issues": []
+    },
+    {
+      "filename": "stock_000001.json",
+      "symbol": "000001",
+      "issues": []
+    },
+    {
+      "filename": "stock_000858.json",
+      "symbol": "000858",
+      "issues": []
+    },
+    {
+      "filename": "stock_300750.json",
+      "symbol": "300750",
+      "issues": []
+    },
+    {
+      "filename": "stock_600519.json",
+      "symbol": "600519",
+      "issues": []
+    },
+    {
+      "filename": "stock_601318.json",
+      "symbol": "601318",
+      "issues": []
+    }
+  ]
+}

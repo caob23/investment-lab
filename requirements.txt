@@ -1,0 +1,6 @@
+# 长期投资实验室 — Python 依赖
+# GitHub Actions 环境下使用 pip install -r requirements.txt
+
+# 核心依赖（标准库足够，无需第三方包）
+# requests 可选，用于更稳定的 HTTP 请求；标准库 urllib 作为默认方案
+requests>=2.28
