@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>组合分析 — 长期投资实验室</title>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/mobile.css">
+<style>
+/* 选择器 */
+.section-card {
+  background:var(--surface, #fff); border-radius:10px;
+  padding:20px; margin-bottom:20px;
+  box-shadow:0 1px 4px rgba(0,0,0,0.06);
+}
+.section-card h2 {
+  font-size:17px; font-weight:700; margin:0 0 4px 0;
+  color:var(--text-primary, #222);
+}
+.section-card .section-desc {
+  font-size:13px; color:var(--text-secondary, #888);
+  margin:0 0 16px 0;
+}
+
+.asset-picker {
+  display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end;
+  margin-bottom:16px;
+}
+.asset-picker label { font-size:13px; font-weight:600; color:#555; }
+.asset-picker select {
+  padding:8px 10px; border:1px solid #ddd; border-radius:6px;
+  font-size:13px; min-width:140px; min-height:120px;
+}
+.asset-picker button {
+  padding:10px 20px; border:none; border-radius:6px;
+  background:var(--primary, #1565c0); color:#fff;
+  font-size:13px; cursor:pointer; font-weight:600;
+}
+.asset-picker button:hover { opacity:0.88; }
+.asset-picker button:disabled { opacity:0.45; cursor:not-allowed; }
+.asset-picker .hint { font-size:11px; color:#999; align-self:center; }
+
+/* 相关性热力图 */
+.heatmap-wrap { text-align:center; margin-top:8px; }
+.heatmap-wrap canvas { max-width:100%; }
+
+/* 定投参数 */
+.dca-params {
+  display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;
+  margin-bottom:16px;
+}
+.dca-params label { font-size:13px; font-weight:600; color:#555; }
+.dca-params input, .dca-params select {
+  padding:8px 10px; border:1px solid #ddd; border-radius:6px;
+  font-size:13px; width:120px;
+}
+
+/* 结果卡片 */
+.result-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+  gap:10px; margin-top:12px;
+}
+.result-card {
+  background:#f5f8fb; border-radius:8px;
+  padding:14px 16px; text-align:center;
+}
+.result-card .r-label { font-size:11px; color:#888; text-transform:uppercase; letter-spacing:0.4px; }
+.result-card .r-value { font-size:20px; font-weight:700; color:#222; margin:4px 0; }
+.result-card .r-sub { font-size:11px; color:#999; }
+.result-card .positive { color:#2e7d32; }
+.result-card .negative { color:#c62828; }
+
+/* 压力测试表格 */
+.stress-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:8px; }
+.stress-table th, .stress-table td {
+  padding:10px 12px; text-align:right; border-bottom:1px solid #eee;
+}
+.stress-table th { background:#f5f5f5; font-weight:600; color:#555; white-space:nowrap; }
+.stress-table td:first-child, .stress-table th:first-child { text-align:left; }
+.stress-table .decline { color:#c62828; font-weight:600; }
+.stress-table .loss { color:#c62828; }
+
+/* Tabs */
+.section-tabs { display:flex; gap:0; margin-bottom:16px; }
+.section-tab {
+  padding:8px 18px; border:1px solid #ddd; background:#f9f9f9;
+  font-size:13px; cursor:pointer; color:#666;
+}
+.section-tab:first-child { border-radius:6px 0 0 6px; }
+.section-tab:last-child { border-radius:0 6px 6px 0; }
+.section-tab.active { background:var(--primary, #1565c0); color:#fff; border-color:var(--primary, #1565c0); }
+
+.info-msg { color:#1565c0; padding:12px; background:#e3f2fd; border-radius:6px; margin:10px 0; font-size:13px; }
+.error-msg { color:#c62828; padding:12px; background:#ffebee; border-radius:6px; margin:10px 0; font-size:13px; }
+.warn-msg { color:#e65100; padding:12px; background:#fff3e0; border-radius:6px; margin:10px 0; font-size:13px; }
+
+@media (max-width:640px) {
+  .result-grid { grid-template-columns:repeat(2,1fr); }
+  .dca-params { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<main class="analysis-container">
+  <h1 style="font-size:22px;font-weight:700;margin:0 0 4px 0;">分析组合</h1>
+  <p style="color:var(--text-secondary);font-size:14px;margin:0 0 20px 0;">
+    相关性矩阵、定投回测、压力测试。分散是投资中唯一的免费午餐。
+  </p>
+
+  <!-- ============ 第 1 节：相关性矩阵 ============ -->
+  <div class="section-card">
+    <h2>相关性矩阵</h2>
+    <p class="section-desc">Pearson 相关系数：衡量资产日收益率之间的线性相关性。接近 1 表示同涨同跌，接近 -1 表示反向。分散投资应选择低相关性的资产组合。</p>
+
+    <div class="asset-picker">
+      <div>
+        <label>选择资产（2-8 项）</label>
+        <select id="corr-asset-select" multiple style="min-height:140px;">
+          <option value="">-- 加载中 --</option>
+        </select>
+      </div>
+      <span class="hint">Ctrl+点击多选</span>
+      <button id="btn-corr" onclick="runCorrelation()">计算相关性</button>
+    </div>
+    <div class="heatmap-wrap" id="heatmap-container"></div>
+    <div id="corr-legend" style="text-align:center;margin-top:6px;"></div>
+  </div>
+
+  <!-- ============ 第 2 节：定投回测 ============ -->
+  <div class="section-card">
+    <h2>定投回测</h2>
+    <p class="section-desc">模拟每月定额买入，比较定投与一次性投入的最终收益。定投可平滑市场波动，降低择时风险。</p>
+
+    <div class="dca-params">
+      <div>
+        <label>选择资产</label>
+        <select id="dca-asset-select">
+          <option value="">-- 加载中 --</option>
+        </select>
+      </div>
+      <div>
+        <label>每月投入（元）</label>
+        <input id="dca-amount" type="number" value="1000" min="100" step="100">
+      </div>
+      <button id="btn-dca" onclick="runDCA()">回测</button>
+    </div>
+    <div id="dca-result"></div>
+    <div class="chart-section" style="margin-top:16px;">
+      <div id="chart-dca"></div>
+    </div>
+  </div>
+
+  <!-- ============ 第 3 节：压力测试 ============ -->
+  <div class="section-card">
+    <h2>压力测试</h2>
+    <p class="section-desc">模拟历史极端情景对资产的冲击，评估在最坏情况下可能承受的最大损失。</p>
+
+    <div class="dca-params">
+      <div>
+        <label>选择资产</label>
+        <select id="stress-asset-select">
+          <option value="">-- 加载中 --</option>
+        </select>
+      </div>
+      <button id="btn-stress" onclick="runStress()">测试</button>
+    </div>
+    <div id="stress-result"></div>
+  </div>
+
+  <div class="info-msg" style="margin-top:20px;">
+    <strong>免责声明：</strong>历史回测不代表未来表现。压力测试基于历史情景的简化模拟，实际市场冲击可能更剧烈。本工具仅供学习研究，不构成投资建议。
+  </div>
+</main>
+
+<script src="js/data-loader.js"></script>
+<script src="js/analysis-engine.js"></script>
+<script src="js/portfolio-engine.js"></script>
+<script src="js/chart-renderer.js"></script>
+<script src="js/portfolio-ui.js"></script>
+</body>
+</html>
