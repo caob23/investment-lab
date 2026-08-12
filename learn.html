@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>投资课程 · 长期投资实验室</title>
+  <meta name="description" content="从零开始学习投资，系统掌握资产分析、风险管理和组合构建。">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="back-link">&larr; 首页</a>
+    <h1 class="site-title">投资课程</h1>
+    <p class="site-subtitle">系统学习，理解本质，形成自己的判断。</p>
+  </header>
+
+  <main class="learn-content">
+    <section class="course-section">
+      <button class="course-toggle" aria-expanded="false" onclick="toggleSection(this)">
+        <span class="course-level course-level--beginner">小白</span>
+        <h2>投资入门</h2>
+        <span class="toggle-icon">+</span>
+      </button>
+      <div class="course-body" hidden>
+        <ul class="course-list">
+          <li>
+            <h3>什么是股票</h3>
+            <p>股票代表公司的一部分所有权。买入股票意味着你成为公司的股东，享有公司成长带来的收益，也承担经营不善的风险。</p>
+          </li>
+          <li>
+            <h3>什么是基金</h3>
+            <p>基金是集合众多投资者资金、由专业管理人统一投资的工具。公募基金门槛低、信息透明，适合普通投资者。</p>
+          </li>
+          <li>
+            <h3>什么是 ETF</h3>
+            <p>ETF（交易型开放式指数基金）跟踪特定指数，像股票一样在交易所买卖。费用低、透明度高，是入门投资的常用工具。</p>
+          </li>
+          <li>
+            <h3>什么是指数</h3>
+            <p>指数是一篮子资产的价格加权平均，反映市场整体或某一板块的表现。例如沪深300代表A股大盘股走势。</p>
+          </li>
+          <li>
+            <h3>什么是债券</h3>
+            <p>债券是发行人向投资者借款的凭证，约定按期付息、到期还本。债券通常波动小于股票，是组合中降低风险的工具。</p>
+          </li>
+          <li>
+            <h3>什么是 QDII</h3>
+            <p>QDII（合格境内机构投资者）基金允许境内投资者间接投资海外市场，是配置全球资产的一种方式。</p>
+          </li>
+          <li>
+            <h3>什么是收益</h3>
+            <p>收益是投资获得的回报，通常以百分比表示。例如买入价100元、卖出价110元，收益为10%。收益可以来自价格上涨（资本利得）或分红。</p>
+          </li>
+          <li>
+            <h3>什么是风险</h3>
+            <p>风险意味着未来结果的不确定性。在投资中，风险通常表现为价格波动——资产可能上涨，也可能下跌。</p>
+          </li>
+          <li>
+            <h3>什么是回撤</h3>
+            <p>回撤是指资产从历史高点下跌的幅度。例如资产从最高100元跌到70元，回撤为30%。回撤衡量的是持有过程中可能承受的账面亏损。</p>
+          </li>
+          <li>
+            <h3>什么是复利</h3>
+            <p>复利是"利滚利"——收益再投资产生新收益。时间越长，复利效应越显著。年化8%的收益，10年后本金翻倍有余。</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="course-section">
+      <button class="course-toggle" aria-expanded="false" onclick="toggleSection(this)">
+        <span class="course-level course-level--intermediate">进阶</span>
+        <h2>分析工具</h2>
+        <span class="toggle-icon">+</span>
+      </button>
+      <div class="course-body" hidden>
+        <ul class="course-list">
+          <li>
+            <h3>PE（市盈率）</h3>
+            <p>市盈率 = 股价 &divide; 每股收益。反映市场愿意为每单位盈利支付的价格。高PE可能意味着高增长预期，也可能是估值偏高。</p>
+          </li>
+          <li>
+            <h3>PB（市净率）</h3>
+            <p>市净率 = 股价 &divide; 每股净资产。常用于评估银行、保险等资产密集型行业。PB低于1可能意味着股价低于净资产。</p>
+          </li>
+          <li>
+            <h3>ROE（净资产收益率）</h3>
+            <p>ROE = 净利润 &divide; 净资产。衡量公司利用股东资金创造利润的能力。长期高ROE通常是优质公司的特征之一。</p>
+          </li>
+          <li>
+            <h3>毛利率与净利率</h3>
+            <p>毛利率反映产品本身的盈利能力，净利率反映扣除所有费用后的最终盈利水平。高毛利率通常意味着较强的定价权。</p>
+          </li>
+          <li>
+            <h3>自由现金流</h3>
+            <p>自由现金流是公司经营活动产生的现金减去资本支出后的余额。它反映了公司真正可以自由支配的现金。</p>
+          </li>
+          <li>
+            <h3>护城河</h3>
+            <p>护城河是公司抵御竞争对手的持久优势，例如品牌、专利、网络效应、规模经济或转换成本。宽护城河的公司更可能维持长期盈利。</p>
+          </li>
+          <li>
+            <h3>估值</h3>
+            <p>估值是判断资产当前价格是否合理的过程。常用方法包括市盈率、市净率、现金流折现等。估值不是精确科学，而是提供参考区间。</p>
+          </li>
+          <li>
+            <h3>资产配置</h3>
+            <p>资产配置是将资金分配到不同资产类别的过程。研究表明，资产配置解释了投资组合长期收益波动的大部分来源。</p>
+          </li>
+          <li>
+            <h3>相关性</h3>
+            <p>相关性衡量两项资产价格走势的同步程度。相关性低意味着它们不太可能同时下跌，有助于分散风险。</p>
+          </li>
+          <li>
+            <h3>再平衡</h3>
+            <p>再平衡是定期将组合中各资产权重恢复到目标比例的操作。它本质上是在资产上涨后卖出部分、下跌后买入部分。</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="course-section">
+      <button class="course-toggle" aria-expanded="false" onclick="toggleSection(this)">
+        <span class="course-level course-level--advanced">高级</span>
+        <h2>量化分析</h2>
+        <span class="toggle-icon">+</span>
+      </button>
+      <div class="course-body" hidden>
+        <ul class="course-list">
+          <li>
+            <h3>夏普比率</h3>
+            <p>夏普比率 = (收益率 - 无风险利率) &divide; 波动率。衡量每承担一单位风险获得的超额回报。夏普比率越高，风险调整后收益越好。</p>
+          </li>
+          <li>
+            <h3>Sortino 比率</h3>
+            <p>Sortino比率与夏普类似，但只考虑下行波动（下跌风险），而非全部波动。对于不介意上涨波动的投资者，Sortino可能更有参考价值。</p>
+          </li>
+          <li>
+            <h3>Calmar 比率</h3>
+            <p>Calmar比率 = 年化收益率 &divide; 最大回撤。衡量收益与极端风险的比值。Calmar越高，意味着在经历最大回撤的情况下，长期收益仍然可观。</p>
+          </li>
+          <li>
+            <h3>Beta</h3>
+            <p>Beta衡量资产相对于市场的波动幅度。Beta=1表示与市场同步，Beta&gt;1表示波动大于市场，Beta&lt;1表示波动小于市场。</p>
+          </li>
+          <li>
+            <h3>Alpha</h3>
+            <p>Alpha是资产实际收益超出（或低于）按Beta调整后的预期收益的部分。正Alpha通常被视为超额收益能力的体现。</p>
+          </li>
+          <li>
+            <h3>滚动收益</h3>
+            <p>滚动收益是以滑动窗口计算的历史收益，能揭示收益随时间的变化模式，而非只看一个固定区间。例如滚动3年年化收益可以展示收益的稳定性。</p>
+          </li>
+          <li>
+            <h3>压力测试</h3>
+            <p>压力测试模拟极端市场情景下组合的表现。例如"如果再次发生类似2008年的市场波动，我的组合会怎样？"这有助于理解尾部风险。</p>
+          </li>
+          <li>
+            <h3>情景分析</h3>
+            <p>情景分析允许用户自定义假设条件，观察组合的理论变化。它是"如果……会怎样"的思维实验，不是预测。</p>
+          </li>
+          <li>
+            <h3>蒙特卡洛模拟</h3>
+            <p>蒙特卡洛模拟通过大量随机抽样来模拟资产未来可能的价格路径，给出结果的概率分布，而非单一预测值。它帮助理解"可能范围"而非"确定结果"。</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="disclaimer">
+      本网站用于投资知识学习、历史数据分析和模拟研究，不构成投资、税务或法律建议。
+    </p>
+    <p class="copyright">长期投资实验室 &mdash; 授人以渔</p>
+  </footer>
+
+  <script>
+    function toggleSection(btn) {
+      const body = btn.nextElementSibling;
+      const icon = btn.querySelector('.toggle-icon');
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      body.hidden = expanded;
+      icon.textContent = expanded ? '+' : '−';
+    }
+  </script>
+</body>
+</html>

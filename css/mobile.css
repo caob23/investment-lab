@@ -1,0 +1,92 @@
+/* ============================================
+   长期投资实验室 — 移动端增强
+   手机优先，触摸友好
+   ============================================ */
+
+/* 基准：375px 宽度手机 */
+
+/* 确保点击区域足够大 */
+@media (max-width: 599px) {
+  .site-title {
+    font-size: 1.5rem;
+  }
+
+  .site-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .site-header {
+    padding: 32px 16px 24px;
+  }
+
+  .entry-card {
+    padding: 20px 18px;
+  }
+
+  .entry-icon {
+    font-size: 1.6rem;
+  }
+
+  .course-toggle {
+    padding: 14px 16px;
+  }
+
+  .calc-card {
+    padding: 20px 16px;
+  }
+
+  .calc-form input,
+  .calc-form select,
+  .btn {
+    min-height: 44px; /* iOS 推荐最小触摸目标 */
+  }
+
+  .rb-asset-row {
+    flex-direction: column;
+    gap: 8px;
+    padding: 14px 0;
+  }
+
+  /* 页面底部留出安全区 */
+  .site-footer {
+    padding-bottom: max(32px, env(safe-area-inset-bottom));
+  }
+}
+
+/* 平板及以上 */
+@media (min-width: 600px) and (max-width: 1023px) {
+  .home-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* 桌面 */
+@media (min-width: 1024px) {
+  body {
+    font-size: 17px;
+  }
+
+  .home-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* 暗色模式滚动条 (WebKit) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* 选中文字颜色 */
+::selection {
+  background: var(--accent-dim);
+  color: #fff;
+}

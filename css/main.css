@@ -1,0 +1,464 @@
+/* ============================================
+   长期投资实验室 — 全局样式
+   风格：专业、简洁、克制
+   ============================================ */
+
+:root {
+  --bg-primary: #0f1117;
+  --bg-secondary: #1a1d27;
+  --bg-card: #1e2130;
+  --bg-card-hover: #252838;
+  --text-primary: #e8e8ed;
+  --text-secondary: #9ca3b4;
+  --text-muted: #6b7280;
+  --accent: #5b8def;
+  --accent-dim: #3d5fa8;
+  --border: #2a2d3a;
+  --border-light: #353849;
+  --danger: #e0556a;
+  --success: #4caf88;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --gap: 16px;
+  --max-width: 720px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   Header
+   ============================================ */
+
+.site-header {
+  text-align: center;
+  padding: 48px var(--gap) 32px;
+}
+
+.site-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.site-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: #7aabff;
+}
+
+/* ============================================
+   Home Grid
+   ============================================ */
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+  padding: 0 var(--gap);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.entry-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: background 0.2s, border-color 0.2s;
+  position: relative;
+}
+
+.entry-card:not(.entry-card--disabled):hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-dim);
+}
+
+.entry-card--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.entry-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.entry-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.entry-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.entry-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.7rem;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  padding: 2px 8px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+}
+
+/* ============================================
+   Learn Page
+   ============================================ */
+
+.learn-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gap);
+  width: 100%;
+}
+
+.course-section {
+  margin-bottom: var(--gap);
+}
+
+.course-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  color: var(--text-primary);
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.course-toggle:hover {
+  background: var(--bg-card-hover);
+}
+
+.course-toggle h2 {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.course-level {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.course-level--beginner {
+  background: #1a3a2a;
+  color: var(--success);
+}
+
+.course-level--intermediate {
+  background: #2a2a1a;
+  color: #d4a84b;
+}
+
+.course-level--advanced {
+  background: #2a1a2a;
+  color: #ab7bdb;
+}
+
+.toggle-icon {
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  width: 24px;
+  text-align: center;
+}
+
+.course-body {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 20px;
+}
+
+.course-list {
+  list-style: none;
+}
+
+.course-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.course-list li:last-child {
+  border-bottom: none;
+}
+
+.course-list h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.course-list p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ============================================
+   Calculator Page
+   ============================================ */
+
+.calc-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gap);
+  width: 100%;
+}
+
+.calc-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: var(--gap);
+}
+
+.calc-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.calc-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.calc-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.calc-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.calc-form input,
+.calc-form select {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.calc-form input:focus,
+.calc-form select:focus {
+  border-color: var(--accent);
+}
+
+.calc-form select {
+  cursor: pointer;
+}
+
+.calc-result {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.result-table tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.result-table tr:last-child {
+  border-bottom: none;
+}
+
+.result-table td,
+.result-table th {
+  padding: 10px 0;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.result-table td:last-child,
+.result-table th:last-child {
+  text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   Rebalance Calculator
+   ============================================ */
+
+.rb-asset-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.rb-asset-row label {
+  flex: 1;
+  min-width: 0;
+}
+
+.rb-asset-row input {
+  width: 100%;
+}
+
+.rb-action-buy {
+  color: var(--danger);
+}
+
+.rb-action-sell {
+  color: var(--success);
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.btn--primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn--primary:hover {
+  background: #4a7de0;
+}
+
+.btn--primary:active {
+  opacity: 0.85;
+}
+
+/* ============================================
+   Forms
+   ============================================ */
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 0.4;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+
+.site-footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 40px var(--gap) 32px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+
+.disclaimer {
+  max-width: 560px;
+  margin: 0 auto 16px;
+}
+
+.copyright {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   Responsive Breakpoints
+   ============================================ */
+
+@media (min-width: 600px) {
+  .home-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .entry-card {
+    min-height: 180px;
+  }
+}

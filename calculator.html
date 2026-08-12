@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>投资计算器 · 长期投资实验室</title>
+  <meta name="description" content="复利、定投、回撤、恢复与再平衡计算工具。">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="back-link">&larr; 首页</a>
+    <h1 class="site-title">投资计算器</h1>
+    <p class="site-subtitle">数据驱动决策，而非凭感觉。</p>
+  </header>
+
+  <main class="calc-content">
+    <!-- 复利计算器 -->
+    <section class="calc-card" id="calc-compound">
+      <h2 class="calc-title">复利计算器</h2>
+      <p class="calc-desc">计算一笔初始资金在固定年化收益率下，经过若干年后的最终价值。</p>
+      <div class="calc-form">
+        <label>初始本金（元）<input type="number" id="cp-principal" value="10000" min="0" step="1000"></label>
+        <label>每月追加（元）<input type="number" id="cp-monthly" value="0" min="0" step="100"></label>
+        <label>年化收益率（%）<input type="number" id="cp-rate" value="8" min="0" max="100" step="0.1"></label>
+        <label>投资年限<input type="number" id="cp-years" value="10" min="1" max="100" step="1"></label>
+        <button class="btn btn--primary" onclick="calcCompound()">计算</button>
+      </div>
+      <div class="calc-result" id="cp-result" hidden>
+        <table class="result-table">
+          <tr><td>最终金额</td><td id="cp-final"></td></tr>
+          <tr><td>累计投入本金</td><td id="cp-total-principal"></td></tr>
+          <tr><td>累计收益</td><td id="cp-gain"></td></tr>
+          <tr><td>总收益率</td><td id="cp-total-return"></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- 定投计算器 -->
+    <section class="calc-card" id="calc-dca">
+      <h2 class="calc-title">定投计算器</h2>
+      <p class="calc-desc">模拟定期定额投资的最终结果。</p>
+      <div class="calc-form">
+        <label>每次投入金额（元）<input type="number" id="dca-amount" value="1000" min="0" step="100"></label>
+        <label>投入频率
+          <select id="dca-freq">
+            <option value="monthly">每月</option>
+            <option value="weekly">每周</option>
+          </select>
+        </label>
+        <label>年化收益率（%）<input type="number" id="dca-rate" value="8" min="0" max="100" step="0.1"></label>
+        <label>投资年限<input type="number" id="dca-years" value="10" min="1" max="100" step="1"></label>
+        <button class="btn btn--primary" onclick="calcDCA()">计算</button>
+      </div>
+      <div class="calc-result" id="dca-result" hidden>
+        <table class="result-table">
+          <tr><td>最终金额</td><td id="dca-final"></td></tr>
+          <tr><td>累计投入本金</td><td id="dca-total"></td></tr>
+          <tr><td>累计收益</td><td id="dca-gain"></td></tr>
+          <tr><td>总收益率</td><td id="dca-return"></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- 回撤计算器 -->
+    <section class="calc-card" id="calc-drawdown">
+      <h2 class="calc-title">回撤计算器</h2>
+      <p class="calc-desc">从最高点到最低点的跌幅。</p>
+      <div class="calc-form">
+        <label>最高点价格（元）<input type="number" id="dd-high" value="100" min="0.01" step="0.01"></label>
+        <label>最低点价格（元）<input type="number" id="dd-low" value="70" min="0.01" step="0.01"></label>
+        <button class="btn btn--primary" onclick="calcDrawdown()">计算</button>
+      </div>
+      <div class="calc-result" id="dd-result" hidden>
+        <p id="dd-output"></p>
+      </div>
+    </section>
+
+    <!-- 恢复计算器 -->
+    <section class="calc-card" id="calc-recovery">
+      <h2 class="calc-title">恢复计算器</h2>
+      <p class="calc-desc">资产下跌一定比例后，需要上涨多少才能回到原点？</p>
+      <div class="calc-result" id="rc-table"></div>
+    </section>
+
+    <!-- 再平衡计算器 -->
+    <section class="calc-card" id="calc-rebalance">
+      <h2 class="calc-title">再平衡计算器</h2>
+      <p class="calc-desc">计算当前持仓与目标权重之间的偏差，明确需要调整的金额。</p>
+      <div class="calc-form" id="rb-form">
+        <label>总投资金额（元）<input type="number" id="rb-total" value="100000" min="0" step="10000"></label>
+        <div id="rb-assets">
+          <div class="rb-asset-row">
+            <label>资产名称<input type="text" class="rb-name" value="股票基金" placeholder="名称"></label>
+            <label>当前金额<input type="number" class="rb-current" value="50000" min="0" step="1000"></label>
+            <label>目标比例（%）<input type="number" class="rb-target" value="50" min="0" max="100" step="1"></label>
+          </div>
+          <div class="rb-asset-row">
+            <label>资产名称<input type="text" class="rb-name" value="债券基金" placeholder="名称"></label>
+            <label>当前金额<input type="number" class="rb-current" value="30000" min="0" step="1000"></label>
+            <label>目标比例（%）<input type="number" class="rb-target" value="30" min="0" max="100" step="1"></label>
+          </div>
+          <div class="rb-asset-row">
+            <label>资产名称<input type="text" class="rb-name" value="货币基金" placeholder="名称"></label>
+            <label>当前金额<input type="number" class="rb-current" value="20000" min="0" step="1000"></label>
+            <label>目标比例（%）<input type="number" class="rb-target" value="20" min="0" max="100" step="1"></label>
+          </div>
+        </div>
+        <button class="btn btn--primary" onclick="calcRebalance()">计算再平衡</button>
+      </div>
+      <div class="calc-result" id="rb-result" hidden></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="disclaimer">
+      本网站用于投资知识学习、历史数据分析和模拟研究，不构成投资、税务或法律建议。
+    </p>
+    <p class="copyright">长期投资实验室 &mdash; 授人以渔</p>
+  </footer>
+
+  <script src="js/calculator.js"></script>
+  <script>
+    /* 页面加载时渲染恢复表格 */
+    (function renderRecovery() {
+      const drops = [10, 20, 30, 40, 50];
+      let html = '<table class="result-table"><tr><th>跌幅</th><th>需上涨</th></tr>';
+      drops.forEach(d => {
+        const gainNeeded = (d / (100 - d) * 100).toFixed(2);
+        html += `<tr><td>${d}%</td><td>${gainNeeded}%</td></tr>`;
+      });
+      html += '</table>';
+      document.getElementById('rc-table').innerHTML = html;
+    })();
+  </script>
+</body>
+</html>
