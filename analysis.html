@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>资产分析 — 长期投资实验室</title>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/mobile.css">
+<style>
+/* 分析页专用样式 */
+.analysis-container { max-width:960px; margin:0 auto; padding:16px; }
+
+/* 资产选择区 */
+.selector-bar {
+  display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+  margin-bottom:20px; padding:16px; background:var(--surface, #fff);
+  border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,0.06);
+}
+.selector-bar label { font-weight:600; font-size:14px; color:var(--text-secondary, #555); }
+.selector-bar select {
+  padding:8px 12px; border:1px solid #ddd; border-radius:6px;
+  font-size:14px; background:#fff; min-width:160px;
+}
+.selector-bar button {
+  padding:8px 18px; border:none; border-radius:6px;
+  background:var(--primary, #1565c0); color:#fff; font-size:14px;
+  cursor:pointer; font-weight:600;
+}
+.selector-bar button:hover { opacity:0.88; }
+.selector-bar button:disabled { opacity:0.45; cursor:not-allowed; }
+
+/* 指标卡片网格 */
+.metrics-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+  gap:12px; margin-bottom:20px;
+}
+.metric-card {
+  background:var(--surface, #fff); border-radius:10px;
+  padding:18px 16px; box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  text-align:center;
+}
+.metric-card .label { font-size:12px; color:var(--text-secondary, #888); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
+.metric-card .value { font-size:24px; font-weight:700; color:var(--text-primary, #222); }
+.metric-card .value.positive { color:#2e7d32; }
+.metric-card .value.negative { color:#c62828; }
+.metric-card .sub { font-size:11px; color:var(--text-tertiary, #aaa); margin-top:4px; }
+
+/* 图表区 */
+.chart-section {
+  background:var(--surface, #fff); border-radius:10px;
+  padding:16px; margin-bottom:20px;
+  box-shadow:0 1px 4px rgba(0,0,0,0.06);
+}
+.chart-section h3 {
+  font-size:15px; font-weight:600; margin:0 0 4px 0;
+  color:var(--text-primary, #333);
+}
+
+/* 对比表格 */
+.compare-table-wrap {
+  overflow-x:auto; margin-top:12px;
+}
+.compare-table {
+  width:100%; border-collapse:collapse; font-size:13px;
+}
+.compare-table th, .compare-table td {
+  padding:10px 12px; text-align:right; border-bottom:1px solid #eee;
+}
+.compare-table th { background:#f5f5f5; font-weight:600; color:#555; white-space:nowrap; }
+.compare-table td:first-child, .compare-table th:first-child { text-align:left; }
+.compare-table .positive { color:#2e7d32; }
+.compare-table .negative { color:#c62828; }
+
+/* 加载/错误状态 */
+.loading { text-align:center; padding:40px; color:#999; }
+.error-msg { color:#c62828; padding:12px; background:#ffebee; border-radius:6px; margin:10px 0; }
+.info-msg { color:#1565c0; padding:12px; background:#e3f2fd; border-radius:6px; margin:10px 0; }
+
+/* 模式切换 tabs */
+.mode-tabs { display:flex; gap:0; margin-bottom:16px; }
+.mode-tab {
+  padding:10px 24px; border:1px solid #ddd; background:#f9f9f9;
+  font-size:14px; cursor:pointer; color:#666;
+  transition:all 0.15s;
+}
+.mode-tab:first-child { border-radius:8px 0 0 8px; }
+.mode-tab:last-child { border-radius:0 8px 8px 0; }
+.mode-tab.active { background:var(--primary, #1565c0); color:#fff; border-color:var(--primary, #1565c0); }
+
+/* Risk-free rate input */
+.rf-input {
+  display:flex; align-items:center; gap:6px; margin-left:12px;
+}
+.rf-input input {
+  width:60px; padding:6px 8px; border:1px solid #ddd; border-radius:6px;
+  font-size:13px; text-align:center;
+}
+.rf-input span { font-size:12px; color:#888; }
+
+/* Responsive */
+@media (max-width:640px) {
+  .metrics-grid { grid-template-columns:repeat(2,1fr); }
+  .selector-bar { flex-direction:column; align-items:stretch; }
+  .mode-tab { padding:8px 14px; font-size:13px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">📈 长期投资实验室</a>
+    <div class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="learn.html">学习</a>
+      <a href="calculator.html">计算器</a>
+      <a href="analysis.html" class="active">分析</a>
+    </div>
+  </div>
+</nav>
+
+<main class="analysis-container">
+  <h1 style="font-size:22px;font-weight:700;margin:0 0 4px 0;">资产分析</h1>
+  <p style="color:var(--text-secondary);font-size:14px;margin:0 0 20px 0;">
+    基于历史数据的统计指标分析。过去不代表未来，所有数据仅供学习参考。
+  </p>
+
+  <!-- 模式切换 -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" onclick="switchMode('single')" id="tab-single">单资产分析</button>
+    <button class="mode-tab" onclick="switchMode('compare')" id="tab-compare">多资产对比</button>
+  </div>
+
+  <!-- 单资产模式 -->
+  <div id="mode-single">
+    <div class="selector-bar">
+      <label>资产类型</label>
+      <select id="asset-type-select" onchange="onTypeChange()">
+        <option value="index">指数</option>
+        <option value="stock">股票</option>
+        <option value="etf">ETF</option>
+      </select>
+      <label>选择资产</label>
+      <select id="asset-select">
+        <option value="">-- 请选择 --</option>
+      </select>
+      <button id="btn-analyze" onclick="runAnalysis()">开始分析</button>
+      <div class="rf-input">
+        <span>无风险利率</span>
+        <input id="rf-rate" type="number" value="2.5" min="0" max="20" step="0.1">
+        <span>%</span>
+      </div>
+    </div>
+
+    <!-- 指标卡片 -->
+    <div class="metrics-grid" id="metrics-single"></div>
+
+    <!-- 收益曲线 -->
+    <div class="chart-section">
+      <h3>累计收益曲线</h3>
+      <div id="chart-cumulative"></div>
+    </div>
+
+    <!-- 回撤曲线 -->
+    <div class="chart-section">
+      <h3>滚动回撤</h3>
+      <div id="chart-drawdown"></div>
+    </div>
+
+    <!-- 日收益分布 -->
+    <div class="chart-section">
+      <h3>日收益率分布</h3>
+      <div id="chart-returns"></div>
+    </div>
+  </div>
+
+  <!-- 多资产对比模式 -->
+  <div id="mode-compare" style="display:none;">
+    <div class="selector-bar">
+      <label>选择资产（可多选，最多6项）</label>
+      <select id="compare-type-select" onchange="onCompareTypeChange()">
+        <option value="index">指数</option>
+        <option value="stock">股票</option>
+        <option value="etf">ETF</option>
+      </select>
+      <select id="compare-asset-select" multiple style="min-height:120px;min-width:200px;">
+      </select>
+      <button id="btn-compare" onclick="runCompare()">对比分析</button>
+      <span style="font-size:11px;color:#999;">Ctrl+点击多选</span>
+    </div>
+
+    <div class="chart-section">
+      <h3>累计收益对比</h3>
+      <div id="chart-compare-cumulative"></div>
+    </div>
+
+    <div class="chart-section">
+      <h3>指标对比表</h3>
+      <div class="compare-table-wrap">
+        <table class="compare-table" id="compare-table"></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 免责声明 -->
+  <div class="info-msg" style="margin-top:20px;">
+    <strong>免责声明：</strong>本页面所有数据来自公开行情接口，仅供学习研究。历史表现不预示未来收益。数据可能存在偏差，如需投资决策请参考官方数据源。
+  </div>
+</main>
+
+<script src="js/data-loader.js"></script>
+<script src="js/analysis-engine.js"></script>
+<script src="js/chart-renderer.js"></script>
+<script src="js/analysis-ui.js"></script>
+</body>
+</html>
