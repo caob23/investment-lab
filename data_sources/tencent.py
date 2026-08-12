@@ -5,12 +5,13 @@ data_sources/tencent.py — 腾讯行情数据源
 接口均为公开 HTTP 端点，无需 API Key。
 
 接口说明：
-- 股票/ETF 日K线（前复权）：
-  http://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param={market}{symbol},day,,,{count},qfq
-- 基金净值：
+- 日K线（前复权，股票/ETF/指数）：
+  http://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param={market}{symbol},day,,,320,qfq
+- 实时行情快照（股票/ETF/指数/基金）：
+  http://qt.gtimg.cn/q={codes}
+  基金前缀 jj（如 jj000001），返回单位净值/累计净值/涨跌幅
+- 基金净值（天天基金，仅最新一条，历史数据需用东方财富接口）：
   http://fundgz.1234567.com.cn/js/{symbol}.js
-- 指数日K线（不复权）：
-  http://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param={index_code},day,,,{count},
 """
 
 import json
@@ -257,6 +258,91 @@ class TencentDataSource(DataSource):
 
         return self._get_kline(full_code, clean, name, AssetType.INDEX, Market.CN)
 
+    # ---------- 实时行情快照（qt.gtimg.cn） ----------
+
+    def get_batch_quotes(self, codes: list[str]) -> list[dict]:
+        """批量获取资产实时行情快照。
+
+        使用 qt.gtimg.cn 接口，支持股票/ETF/指数/基金。
+        基金代码需加 jj 前缀（如 jj000001）。
+
+        返回字段：
+        - code: 代码
+        - name: 名称
+        - price: 当前价（基金为单位净值）
+        - change_pct: 涨跌幅%
+        - date: 日期
+        - acc_nav: 累计净值（仅基金）
+
+        注：这只是最新的实时快照，不是历史数据。
+        """
+        if not codes:
+            return []
+
+        url = f"http://qt.gtimg.cn/q={','.join(codes)}"
+        raw = _http_get(url)
+        if raw is None:
+            return []
+
+        try:
+            text = raw.decode("gbk", errors="replace")
+        except Exception:
+            return []
+
+        results = []
+        for line in text.strip().split("\n"):
+            line = line.strip()
+            if not line or "=" not in line:
+                continue
+            key, val = line.split("=", 1)
+            if not key.startswith("v_"):
+                continue
+            # 去掉引号和分号
+            val = val.strip().strip('"').rstrip(";")
+            parts = val.split("~")
+            if len(parts) < 9:
+                continue
+
+            is_fund = key.startswith("v_jj")
+
+            if is_fund:
+                # 基金字段布局：
+                # [0]=code [1]=name [2]=price(0) [5]=单位净值 [6]=累计净值 [7]=涨跌幅% [8]=日期
+                result = {
+                    "code": parts[0],
+                    "name": parts[1],
+                    "price": float(parts[5]) if len(parts) > 5 and parts[5] else 0,
+                    "change_pct": float(parts[7]) if len(parts) > 7 and parts[7] else 0,
+                    "date": parts[8] if len(parts) > 8 else "",
+                }
+                if len(parts) > 6 and parts[6]:
+                    result["acc_nav"] = float(parts[6])
+                results.append(result)
+            else:
+                # 股票/ETF/指数字段布局：
+                # [0]=market [1]=name [2]=code [3]=现价 [30]=日期(yyyyMMddHHmmss) [31]=涨跌额 [32]=涨跌幅%
+                if len(parts) < 33:
+                    continue
+                result = {
+                    "code": parts[2],
+                    "name": parts[1],
+                    "price": float(parts[3]) if parts[3] else 0,
+                    "change_pct": float(parts[32]) if parts[32] else 0,
+                    "date": parts[30][:8] if len(parts) > 30 and parts[30] else "",
+                }
+                results.append(result)
+
+        return results
+
+    def get_fund_quote(self, symbol: str) -> Optional[dict]:
+        """获取单只基金实时净值快照。
+
+        使用 qt.gtimg.cn jj 前缀接口。
+        返回：{code, name, price(单位净值), acc_nav(累计净值), change_pct, date}
+        """
+        results = self.get_batch_quotes([f"jj{symbol}"])
+        return results[0] if results else None
+
     # ---------- 基金 ----------
 
     def get_fund_history(self, symbol: str) -> Optional[AssetData]:
@@ -264,6 +350,7 @@ class TencentDataSource(DataSource):
 
         注意：天天基金单次接口只返回最新净值。
         完整历史净值需要额外的历史接口（后续 Phase 扩展）。
+        实时快照请使用 get_fund_quote()。
         """
         url = f"http://fundgz.1234567.com.cn/js/{symbol}.js"
         raw = _http_get(url)
