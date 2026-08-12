@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>历史时期分析 · 长期投资实验室</title>
+  <meta name="description" content="分析资产在历史关键时期的表现：收益、最大回撤、波动率。">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  <style>
+    .history-container { max-width:960px; margin:0 auto; padding:16px; }
+
+    .selector-bar {
+      display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+      margin-bottom:20px; padding:16px;
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius);
+    }
+    .selector-bar label { font-weight:600; font-size:14px; color:var(--text-secondary); }
+    .selector-bar select {
+      padding:10px 14px; border:1px solid var(--border); border-radius:var(--radius-sm);
+      font-size:14px; background:var(--bg-secondary); color:var(--text-primary);
+      min-width:180px; cursor:pointer;
+    }
+    .selector-bar select:focus { border-color:var(--accent); outline:none; }
+    .selector-bar button {
+      padding:10px 20px; border:none; border-radius:var(--radius-sm);
+      background:var(--accent); color:#fff; font-size:14px;
+      font-weight:600; cursor:pointer;
+    }
+    .selector-bar button:hover { background:#4a7de0; }
+    .selector-bar button:disabled { opacity:0.45; cursor:not-allowed; }
+
+    /* Period cards */
+    .period-grid {
+      display:flex; flex-direction:column; gap:16px; margin-bottom:24px;
+    }
+    .period-card {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius); padding:20px 24px;
+    }
+    .period-card__header {
+      display:flex; align-items:baseline; justify-content:space-between;
+      flex-wrap:wrap; gap:8px; margin-bottom:8px;
+    }
+    .period-card__name {
+      font-size:1.1rem; font-weight:700; color:var(--text-primary);
+    }
+    .period-card__dates {
+      font-size:0.82rem; color:var(--text-muted);
+    }
+    .period-card__desc {
+      font-size:0.85rem; color:var(--text-secondary); margin-bottom:16px;
+      line-height:1.5;
+    }
+    .period-card__metrics {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(140px,1fr));
+      gap:10px;
+    }
+    .period-metric {
+      background:var(--bg-secondary); border-radius:var(--radius-sm);
+      padding:12px 14px; text-align:center;
+    }
+    .period-metric .label {
+      font-size:11px; color:var(--text-muted); letter-spacing:0.5px;
+      text-transform:uppercase; margin-bottom:4px;
+    }
+    .period-metric .value {
+      font-size:1.25rem; font-weight:700;
+    }
+    .period-metric .value.positive { color:var(--success); }
+    .period-metric .value.negative { color:var(--danger); }
+
+    /* Disclaimer */
+    .period-disclaimer {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius); padding:16px 20px;
+      margin-top:8px; font-size:0.82rem; color:var(--text-secondary);
+      line-height:1.6;
+    }
+    .period-disclaimer strong { color:var(--text-primary); }
+
+    .loading-msg { text-align:center; padding:60px 20px; color:var(--text-muted); font-size:15px; }
+    .error-msg { color:var(--danger); padding:16px; background:rgba(224,85,106,0.08); border-radius:var(--radius-sm); margin:12px 0; }
+    .info-msg { color:var(--accent); padding:16px; background:rgba(91,141,239,0.08); border-radius:var(--radius-sm); margin:12px 0; }
+    .no-data { text-align:center; padding:40px 16px; color:var(--text-muted); }
+
+    /* Why button */
+    .why-btn {
+      display:inline-block; margin-left:6px; padding:1px 8px;
+      font-size:0.72rem; color:var(--accent); background:transparent;
+      border:1px solid var(--accent-dim); border-radius:100px;
+      cursor:pointer; vertical-align:middle;
+    }
+    .why-btn:hover { background:rgba(91,141,239,0.1); }
+    .why-content {
+      display:none; font-size:0.82rem; color:var(--text-secondary);
+      background:rgba(91,141,239,0.05); padding:10px 14px;
+      border-radius:var(--radius-sm); margin-top:8px;
+      line-height:1.5; border-left:3px solid var(--accent-dim);
+    }
+    .why-content.show { display:block; }
+
+    /* Chart placeholder */
+    .chart-section {
+      background:var(--bg-card); border:1px solid var(--border);
+      border-radius:var(--radius); padding:20px; margin-bottom:20px;
+    }
+    .chart-section h3 {
+      font-size:15px; font-weight:600; margin-bottom:12px; color:var(--text-primary);
+    }
+    .chart-bar {
+      display:flex; align-items:center; gap:8px; margin-bottom:8px;
+    }
+    .chart-bar .bar-label {
+      width:140px; font-size:0.8rem; color:var(--text-secondary); text-align:right;
+    }
+    .chart-bar .bar-track {
+      flex:1; height:22px; background:var(--bg-secondary); border-radius:4px; overflow:hidden;
+    }
+    .chart-bar .bar-fill {
+      height:100%; border-radius:4px; transition:width 0.4s;
+    }
+    .chart-bar .bar-fill.positive { background:var(--success); }
+    .chart-bar .bar-fill.negative { background:var(--danger); }
+    .chart-bar .bar-value {
+      width:70px; font-size:0.82rem; font-weight:600; text-align:left;
+    }
+    .chart-bar .bar-value.positive { color:var(--success); }
+    .chart-bar .bar-value.negative { color:var(--danger); }
+
+    @media (max-width:599px) {
+      .period-card__metrics { grid-template-columns:repeat(2,1fr); }
+      .chart-bar { flex-wrap:wrap; }
+      .chart-bar .bar-label { width:100%; text-align:left; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a href="index.html" class="back-link">&larr; 首页</a>
+    <h1 class="site-title">历史时期分析</h1>
+    <p class="site-subtitle">观察资产在历史关键时期的表现，理解极端市场环境下的风险。</p>
+  </header>
+
+  <main class="history-container">
+    <div class="selector-bar">
+      <label>资产类型</label>
+      <select id="htype-select" onchange="onHistoryTypeChange()">
+        <option value="index">指数</option>
+        <option value="stock">股票</option>
+        <option value="etf">ETF</option>
+      </select>
+      <label>选择资产</label>
+      <select id="hasset-select">
+        <option value="">-- 请选择资产 --</option>
+      </select>
+      <button id="btn-hanalyze" onclick="runHistoryAnalysis()">开始分析</button>
+    </div>
+
+    <div id="period-results" class="period-grid"></div>
+    <div id="period-chart" class="chart-section" style="display:none;">
+      <h3>各时期收益对比</h3>
+      <div id="bar-chart-container"></div>
+    </div>
+
+    <div class="period-disclaimer">
+      <strong>重要说明：</strong>历史时期定义只是分析窗口，不代表所有市场在整个期间都处于相同状态。
+      每个时期的划分是人为选择的观察区间，不同资产在该区间内的实际表现可能因自身特性而异。
+      历史分析仅供学习参考，不预示未来表现。
+    </div>
+
+    <div class="info-msg" style="margin-top:20px;">
+      <strong>免责声明：</strong>本页面所有计算基于历史价格数据，仅供学习研究。历史收益不代表未来收益。
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="disclaimer">本网站用于投资知识学习、历史数据分析和模拟研究，不构成投资、税务或法律建议。</p>
+    <p class="copyright">长期投资实验室 &mdash; 授人以渔</p>
+  </footer>
+
+  <script src="js/data-loader.js"></script>
+  <script src="js/analysis-engine.js"></script>
+  <script>
+    // -- Global state --
+    let periodDefs = [];
+
+    // -- Init --
+    (async function init() {
+      try {
+        const resp = await fetch("data/historical_periods.json");
+        periodDefs = (await resp.json()).periods;
+      } catch (e) {
+        console.error("加载历史时期配置失败:", e);
+      }
+      onHistoryTypeChange();
+    })();
+
+    // -- Type change --
+    async function onHistoryTypeChange() {
+      const type = document.getElementById("htype-select").value;
+      const select = document.getElementById("hasset-select");
+      select.innerHTML = '<option value="">-- 加载中 --</option>';
+      const assets = await DataLoader.getAssetsByType(type);
+      select.innerHTML = '<option value="">-- 请选择资产 --</option>';
+      assets.forEach((a) => {
+        const opt = document.createElement("option");
+        opt.value = a.symbol;
+        opt.textContent = `${a.symbol} - ${a.name}`;
+        select.appendChild(opt);
+      });
+    }
+
+    // -- Run analysis --
+    async function runHistoryAnalysis() {
+      const type = document.getElementById("htype-select").value;
+      const symbol = document.getElementById("hasset-select").value;
+      const resultsDiv = document.getElementById("period-results");
+      const chartSection = document.getElementById("period-chart");
+      const btn = document.getElementById("btn-hanalyze");
+
+      if (!symbol) {
+        resultsDiv.innerHTML = '<div class="info-msg">请先选择一个资产。</div>';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "分析中…";
+      resultsDiv.innerHTML = '<div class="loading-msg">正在计算各历史时期指标…</div>';
+      chartSection.style.display = "none";
+
+      try {
+        const data = await DataLoader.loadAssetData(symbol, type);
+        if (!data || !data.data || data.data.length < 2) {
+          resultsDiv.innerHTML = '<div class="error-msg">该资产数据不足，无法进行历史时期分析。</div>';
+          btn.disabled = false;
+          btn.textContent = "开始分析";
+          return;
+        }
+
+        const pricesFull = data.data.map((d) => ({ date: d.date, price: d.price || d.close || d.nav }));
+        const results = periodDefs.map((p) => computePeriodMetrics(pricesFull, p));
+
+        renderResults(results, data.name || symbol);
+        renderBarChart(results);
+        chartSection.style.display = "block";
+      } catch (e) {
+        console.error(e);
+        resultsDiv.innerHTML = '<div class="error-msg">分析失败：' + e.message + '</div>';
+      }
+      btn.disabled = false;
+      btn.textContent = "开始分析";
+    }
+
+    // -- Compute metrics for one period --
+    function computePeriodMetrics(pricesFull, period) {
+      const startDate = period.start;
+      const endDate = period.end;
+
+      // Filter data within period range
+      const periodData = pricesFull.filter(
+        (d) => d.date >= startDate && d.date <= endDate
+      );
+
+      if (periodData.length < 2) {
+        return {
+          period: period,
+          insufficient: true,
+          dataPoints: periodData.length,
+        };
+      }
+
+      const prices = periodData.map((d) => d.price);
+      const result = AnalysisEngine.analyze(periodData);
+
+      return {
+        period: period,
+        insufficient: false,
+        dataPoints: periodData.length,
+        totalReturn: ((prices[prices.length - 1] - prices[0]) / prices[0]) * 100,
+        annualizedReturn: result.annualizedReturn != null ? result.annualizedReturn * 100 : null,
+        maxDrawdown: result.maxDrawdown ? result.maxDrawdown.value * 100 : null,
+        volatility: result.annualizedVolatility != null ? result.annualizedVolatility * 100 : null,
+      };
+    }
+
+    // -- Render result cards --
+    function renderResults(results, assetName) {
+      const container = document.getElementById("period-results");
+      let html = "";
+
+      results.forEach((r) => {
+        if (r.insufficient) {
+          html += `
+            <div class="period-card">
+              <div class="period-card__header">
+                <span class="period-card__name">${r.period.name}</span>
+                <span class="period-card__dates">${r.period.start} ~ ${r.period.end}</span>
+              </div>
+              <p class="period-card__desc">${r.period.description}</p>
+              <div class="no-data">该资产在此时期仅有 ${r.dataPoints} 个数据点，数据不足无法计算。</div>
+            </div>`;
+        } else {
+          const retClass = r.totalReturn >= 0 ? "positive" : "negative";
+          const ddClass = r.maxDrawdown <= 20 ? "positive" : "negative";
+          html += `
+            <div class="period-card">
+              <div class="period-card__header">
+                <span class="period-card__name">${r.period.name}</span>
+                <span class="period-card__dates">${r.period.start} ~ ${r.period.end}</span>
+              </div>
+              <p class="period-card__desc">${r.period.description}</p>
+              <div class="period-card__metrics">
+                <div class="period-metric">
+                  <div class="label">区间收益</div>
+                  <div class="value ${retClass}">${fmtPct(r.totalReturn)}</div>
+                </div>
+                <div class="period-metric">
+                  <div class="label">最大回撤
+                    <button class="why-btn" onclick="toggleWhy(event,'dd-why')">为什么？</button>
+                  </div>
+                  <div class="value ${ddClass}">${fmtPct(r.maxDrawdown)}</div>
+                  <div class="why-content" id="dd-why">最大回撤衡量从最高点到最低点的最大跌幅。回撤越大，持有过程中可能承受的账面亏损越大，即使资产最终回升，过程中的心理压力可能很大。</div>
+                </div>
+                <div class="period-metric">
+                  <div class="label">年化波动率
+                    <button class="why-btn" onclick="toggleWhy(event,'vol-why')">为什么？</button>
+                  </div>
+                  <div class="value">${fmtPct(r.volatility)}</div>
+                  <div class="why-content" id="vol-why">波动率反映价格上下起伏的幅度。高波动率意味着资产价格变动剧烈，虽然可能带来高收益，但也意味着更大的不确定性。</div>
+                </div>
+                <div class="period-metric">
+                  <div class="label">数据点数</div>
+                  <div class="value" style="font-size:1rem;color:var(--text-secondary);">${r.dataPoints}</div>
+                </div>
+              </div>
+            </div>`;
+        }
+      });
+
+      container.innerHTML = html;
+    }
+
+    // -- Render bar chart for returns --
+    function renderBarChart(results) {
+      const container = document.getElementById("bar-chart-container");
+      const valid = results.filter((r) => !r.insufficient);
+      if (valid.length === 0) {
+        container.innerHTML = '<div class="no-data">没有足够数据绘制对比图。</div>';
+        return;
+      }
+
+      const maxAbs = Math.max(...valid.map((r) => Math.abs(r.totalReturn)), 1);
+      let html = "";
+
+      valid.forEach((r) => {
+        const pct = (Math.abs(r.totalReturn) / maxAbs) * 100;
+        const cls = r.totalReturn >= 0 ? "positive" : "negative";
+        html += `
+          <div class="chart-bar">
+            <span class="bar-label">${r.period.name}</span>
+            <div class="bar-track">
+              <div class="bar-fill ${cls}" style="width:${pct}%"></div>
+            </div>
+            <span class="bar-value ${cls}">${fmtPct(r.totalReturn)}</span>
+          </div>`;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // -- Helpers --
+    function fmtPct(v) {
+      if (v == null || isNaN(v)) return "N/A";
+      return (v >= 0 ? "+" : "") + v.toFixed(2) + "%";
+    }
+
+    function toggleWhy(e, id) {
+      e.stopPropagation();
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle("show");
+    }
+  </script>
+</body>
+</html>

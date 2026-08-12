@@ -57,14 +57,48 @@
             <p>风险意味着未来结果的不确定性。在投资中，风险通常表现为价格波动——资产可能上涨，也可能下跌。</p>
           </li>
           <li>
-            <h3>什么是回撤</h3>
+            <h3>什么是回撤
+              <button class="why-btn" onclick="toggleWhy(event,'why-dd')">为什么？</button>
+            </h3>
             <p>回撤是指资产从历史高点下跌的幅度。例如资产从最高100元跌到70元，回撤为30%。回撤衡量的是持有过程中可能承受的账面亏损。</p>
+            <div class="why-content" id="why-dd">因为长期收益很好，并不代表投资过程容易承受。一个资产可能长期上涨，但中途经历非常大的回撤。如果你在中途因恐慌卖出，后面的涨幅与你无关。</div>
           </li>
           <li>
             <h3>什么是复利</h3>
             <p>复利是"利滚利"——收益再投资产生新收益。时间越长，复利效应越显著。年化8%的收益，10年后本金翻倍有余。</p>
           </li>
         </ul>
+      </div>
+    </section>
+
+    <!-- 小白互动测验 -->
+    <section class="quiz-section">
+      <h3 class="quiz-title">互动测验</h3>
+      <div class="quiz-card" id="quiz-beginner">
+        <div class="quiz-step active" data-step="1">
+          <p class="quiz-question">一个资产从 100 跌到 70，回撤是多少？</p>
+          <div class="quiz-input-row">
+            <input type="text" id="quiz-b1" placeholder="输入百分比，如 30" onkeydown="if(event.key==='Enter')checkBeginnerStep1()">
+            <button class="quiz-next-btn" onclick="checkBeginnerStep1()">确认</button>
+          </div>
+          <div class="quiz-feedback" id="quiz-b1-fb"></div>
+        </div>
+        <div class="quiz-step" data-step="2">
+          <p class="quiz-question">从 70 恢复到 100 需要上涨多少？</p>
+          <div class="quiz-input-row">
+            <input type="text" id="quiz-b2" placeholder="输入百分比" onkeydown="if(event.key==='Enter')checkBeginnerStep2()">
+            <button class="quiz-next-btn" onclick="checkBeginnerStep2()">确认</button>
+          </div>
+          <div class="quiz-feedback" id="quiz-b2-fb"></div>
+        </div>
+        <div class="quiz-step" data-step="3">
+          <p class="quiz-question">看懂了吗？</p>
+          <div class="quiz-feedback show quiz-feedback--info">
+            跌幅30%与涨幅42.86%不对等——这正是回撤的关键洞察。<br><br>
+            跌幅越大，恢复所需涨幅呈指数级增长：跌50%需要翻倍才能回本，跌80%需要涨400%。<br><br>
+            <strong>这解释了为什么控制下行风险比追逐上涨更重要。</strong>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -109,14 +143,33 @@
             <p>资产配置是将资金分配到不同资产类别的过程。研究表明，资产配置解释了投资组合长期收益波动的大部分来源。</p>
           </li>
           <li>
-            <h3>相关性</h3>
+            <h3>相关性
+              <button class="why-btn" onclick="toggleWhy(event,'why-corr')">为什么？</button>
+            </h3>
             <p>相关性衡量两项资产价格走势的同步程度。相关性低意味着它们不太可能同时下跌，有助于分散风险。</p>
+            <div class="why-content" id="why-corr">历史相关性越低，通常意味着历史上两项资产的波动不同步程度越高。但历史相关性不会保证未来保持不变。</div>
           </li>
           <li>
             <h3>再平衡</h3>
             <p>再平衡是定期将组合中各资产权重恢复到目标比例的操作。它本质上是在资产上涨后卖出部分、下跌后买入部分。</p>
           </li>
         </ul>
+      </div>
+    </section>
+
+    <!-- 进阶互动测验 -->
+    <section class="quiz-section">
+      <h3 class="quiz-title">互动测验</h3>
+      <div class="quiz-card" id="quiz-intermediate">
+        <div class="quiz-step active" data-step="1">
+          <p class="quiz-question">PE=50、ROE=10% 的公司，和 PE=15、ROE=15% 的公司，你觉得哪个估值更合理？</p>
+          <div class="quiz-input-row">
+            <button class="quiz-next-btn" style="background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border);margin-right:8px;" onclick="answerIntermediate('a')">A. PE=50 那家</button>
+            <button class="quiz-next-btn" style="background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border);margin-right:8px;" onclick="answerIntermediate('b')">B. PE=15 那家</button>
+            <button class="quiz-next-btn" style="background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border);" onclick="answerIntermediate('c')">C. 看情况</button>
+          </div>
+          <div class="quiz-feedback" id="quiz-i1-fb"></div>
+        </div>
       </div>
     </section>
 
@@ -129,8 +182,11 @@
       <div class="course-body" hidden>
         <ul class="course-list">
           <li>
-            <h3>夏普比率</h3>
+            <h3>夏普比率
+              <button class="why-btn" onclick="toggleWhy(event,'why-sharpe')">为什么？</button>
+            </h3>
             <p>夏普比率 = (收益率 - 无风险利率) &divide; 波动率。衡量每承担一单位风险获得的超额回报。夏普比率越高，风险调整后收益越好。</p>
+            <div class="why-content" id="why-sharpe">夏普比率假设收益符合正态分布，且不区分上行波动和下行波动。对于不介意上涨波动的投资者，Sortino 比率可能更有参考价值。夏普比率高不代表未来一定好。</div>
           </li>
           <li>
             <h3>Sortino 比率</h3>
@@ -167,6 +223,66 @@
         </ul>
       </div>
     </section>
+
+    <!-- 高级互动测验 -->
+    <section class="quiz-section">
+      <h3 class="quiz-title">互动测验</h3>
+      <div class="quiz-card" id="quiz-advanced">
+        <div class="quiz-step active" data-step="1">
+          <p class="quiz-question">夏普比率高就一定是好投资吗？</p>
+          <div class="quiz-input-row">
+            <button class="quiz-next-btn" style="background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border);margin-right:8px;" onclick="answerAdvanced('yes')">是</button>
+            <button class="quiz-next-btn" style="background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border);margin-right:8px;" onclick="answerAdvanced('no')">不一定</button>
+            <button class="quiz-next-btn" style="background:var(--bg-secondary);color:var(--text-primary);border:1px solid var(--border);" onclick="answerAdvanced('depends')">看情况</button>
+          </div>
+          <div class="quiz-feedback" id="quiz-a1-fb"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 投资案例 -->
+    <section class="quiz-section">
+      <h3 class="quiz-title">投资决策训练</h3>
+      <div class="case-card" id="case-study">
+        <p class="case-header">案例：你会把这项资产加入组合吗？</p>
+        <p class="case-desc">以下是某资产的简化数据。请基于你的判断做出选择——没有唯一正确答案。</p>
+        <div class="case-metrics">
+          <div class="case-metric">
+            <div class="label">年化收益</div>
+            <div class="value">+12.5%</div>
+          </div>
+          <div class="case-metric">
+            <div class="label">最大回撤</div>
+            <div class="value">-38%</div>
+          </div>
+          <div class="case-metric">
+            <div class="label">年化波动</div>
+            <div class="value">25%</div>
+          </div>
+          <div class="case-metric">
+            <div class="label">PE 估值</div>
+            <div class="value">32</div>
+          </div>
+          <div class="case-metric">
+            <div class="label">与组合相关性</div>
+            <div class="value">0.45</div>
+          </div>
+          <div class="case-metric">
+            <div class="label">Sharpe</div>
+            <div class="value">0.48</div>
+          </div>
+        </div>
+        <p class="quiz-question">你会选择加入组合吗？</p>
+        <div class="case-options">
+          <button class="case-option" onclick="showCaseExplanation('a')">A. 加入，作为核心配置</button>
+          <button class="case-option" onclick="showCaseExplanation('b')">B. 少量加入，控制比例</button>
+          <button class="case-option" onclick="showCaseExplanation('c')">C. 不加入，回撤太大</button>
+          <button class="case-option" onclick="showCaseExplanation('d')">D. 再观察一段时间</button>
+        </div>
+        <div class="case-explanation" id="case-explanation"></div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
@@ -184,6 +300,85 @@
       btn.setAttribute('aria-expanded', String(!expanded));
       body.hidden = expanded;
       icon.textContent = expanded ? '+' : '−';
+    }
+
+    function toggleWhy(e, id) {
+      e.stopPropagation();
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('show');
+    }
+
+    // -- 小白 Quiz --
+    function checkBeginnerStep1() {
+      const input = document.getElementById('quiz-b1');
+      const fb = document.getElementById('quiz-b1-fb');
+      const val = parseFloat(input.value.replace('%',''));
+      if (Math.abs(val - 30) < 1) {
+        fb.className = 'quiz-feedback show quiz-feedback--correct';
+        fb.innerHTML = '正确！(100-70)/100 = 30%<br><button class="quiz-next-btn" onclick="goToStep(\'quiz-beginner\',2)">下一题</button>';
+      } else if (!isNaN(val)) {
+        fb.className = 'quiz-feedback show quiz-feedback--hint';
+        fb.innerHTML = '回撤 = (高点 - 低点) / 高点。试试：(100 - 70) / 100 = ?';
+      }
+    }
+    function checkBeginnerStep2() {
+      const input = document.getElementById('quiz-b2');
+      const fb = document.getElementById('quiz-b2-fb');
+      const val = parseFloat(input.value.replace('%',''));
+      if (Math.abs(val - 42.86) < 2) {
+        fb.className = 'quiz-feedback show quiz-feedback--correct';
+        fb.innerHTML = '正确！(100-70)/70 ≈ 42.86%<br><button class="quiz-next-btn" onclick="goToStep(\'quiz-beginner\',3)">查看总结</button>';
+      } else if (!isNaN(val)) {
+        fb.className = 'quiz-feedback show quiz-feedback--hint';
+        fb.innerHTML = '恢复幅度 = (高点 - 低点) / 低点。试试：(100 - 70) / 70 = ?';
+      }
+    }
+
+    // -- 进阶 Quiz --
+    function answerIntermediate(choice) {
+      const fb = document.getElementById('quiz-i1-fb');
+      fb.className = 'quiz-feedback show quiz-feedback--info';
+      if (choice === 'c') {
+        fb.innerHTML = '<strong>看情况</strong>——这是最接近投资现实的选择。<br><br>PE=50/ROE=10% 可能是一家高增长公司，市场愿意为未来盈利支付溢价。PE=15/ROE=15% 可能是一家成熟公司，盈利能力强但增长空间有限。<br><br>估值不是单一数字游戏，需要结合增长预期、行业特征和商业模式综合判断。';
+      } else if (choice === 'a') {
+        fb.innerHTML = '选择 PE=50 那家：你可能看重的是高增长潜力。高PE通常反映市场对未来盈利的高预期，但如果增长不及预期，估值可能大幅回调。';
+      } else {
+        fb.innerHTML = '选择 PE=15 那家：你可能更看重当前的盈利能力。低PE+高ROE通常意味着估值相对合理，但也可能意味着市场认为其成长空间有限。';
+      }
+    }
+
+    // -- 高级 Quiz --
+    function answerAdvanced(choice) {
+      const fb = document.getElementById('quiz-a1-fb');
+      fb.className = 'quiz-feedback show quiz-feedback--info';
+      fb.innerHTML = '<strong>不一定 / 看情况</strong>——这是关键。<br><br>夏普比率假设收益服从正态分布且波动对称，但真实市场中：<br>1. 极端事件（尾部风险）比正态分布假设更频繁<br>2. 不区分上行波动和下行波动——上涨波动也会降低夏普比率<br>3. 历史夏普比率不保证未来<br><br>因此，夏普比率是参考指标之一，不能单独作为投资决策依据。';
+    }
+
+    function goToStep(quizId, stepNum) {
+      const quiz = document.getElementById(quizId);
+      quiz.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+      const step = quiz.querySelector(`[data-step="${stepNum}"]`);
+      if (step) step.classList.add('active');
+    }
+
+    // -- 投资案例 --
+    function showCaseExplanation(choice) {
+      const el = document.getElementById('case-explanation');
+      const options = document.querySelectorAll('#case-study .case-option');
+      options.forEach(o => o.classList.remove('selected'));
+      const selected = document.querySelector(`#case-study .case-option:nth-child(${
+        choice === 'a' ? 1 : choice === 'b' ? 2 : choice === 'c' ? 3 : 4
+      })`);
+      if (selected) selected.classList.add('selected');
+
+      const explanations = {
+        a: '<strong>A. 加入，作为核心配置</strong><br><br>你可能看重的是12.5%的年化收益和中等相关性（0.45），认为分散化收益值得承受38%的回撤风险。适合长期投资期限长、风险承受能力较高的投资者。',
+        b: '<strong>B. 少量加入，控制比例</strong><br><br>这是最常见的做法——认可资产的收益潜力，但通过控制仓位来管理风险。38%的最大回撤确实不小，少量配置可以在享受收益的同时限制整体组合的下行风险。',
+        c: '<strong>C. 不加入，回撤太大</strong><br><br>38%的回撤意味着投资过程中可能承受近四成的账面亏损。如果你无法承受这种心理压力，或者投资期限较短，不加入是完全合理的决定。',
+        d: '<strong>D. 再观察一段时间</strong><br><br>等待更多数据、观察估值变化或市场环境再决定。这反映了谨慎的态度——投资不需要急于一时，充分了解后再做决定是理性的。'
+      };
+      el.innerHTML = explanations[choice];
+      el.className = 'case-explanation show';
     }
   </script>
 </body>
