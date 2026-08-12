@@ -42,6 +42,10 @@ ASSETS_TO_FETCH = [
     {"symbol": "000016", "type": "index", "name": "上证50"},
     {"symbol": "000688", "type": "index", "name": "科创50"},
     {"symbol": "399673", "type": "index", "name": "创业板50"},
+    # 美股
+    {"symbol": "us.IXIC", "type": "index", "name": "纳斯达克综合指数"},
+    {"symbol": "us.SPX", "type": "index", "name": "标普500"},
+    {"symbol": "us.DJI", "type": "index", "name": "道琼斯工业平均"},
 
     # === A股股票 ===
     # 金融

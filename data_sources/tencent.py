@@ -244,7 +244,10 @@ class TencentDataSource(DataSource):
         "000016": ("上证50", "sh000016"),
         "000688": ("科创50", "sh000688"),
         "399673": ("创业板50", "sz399673"),
-        # 海外指数 — 腾讯接口不支持，后续可扩展其他数据源
+        # 海外指数
+        "us.IXIC": ("纳斯达克综合指数", "us.IXIC"),
+        "us.SPX": ("标普500", "us.INX"),
+        "us.DJI": ("道琼斯工业平均", "us.DJI"),
     }
 
     def get_index_history(self, symbol: str) -> Optional[AssetData]:

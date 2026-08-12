@@ -1,7 +1,7 @@
 {
-  "updated_at": "2026-08-12 11:00:32",
-  "total_assets": 44,
-  "fetch_success": 44,
+  "updated_at": "2026-08-12",
+  "total_assets": 47,
+  "fetch_success": 47,
   "fetch_fail": 0,
   "data_sources": [
     "tencent"
@@ -445,6 +445,36 @@
       "data_start": "2025-04-10",
       "data_end": "2026-08-12",
       "data_points": 321,
+      "status": "ok"
+    },
+    {
+      "symbol": "us.IXIC",
+      "name": "纳斯达克综合指数",
+      "type": "index",
+      "market": "US",
+      "data_start": "2025-05-02",
+      "data_end": "2026-08-11",
+      "data_points": 320,
+      "status": "ok"
+    },
+    {
+      "symbol": "us.SPX",
+      "name": "标普500",
+      "type": "index",
+      "market": "US",
+      "data_start": "2025-05-02",
+      "data_end": "2026-08-11",
+      "data_points": 320,
+      "status": "ok"
+    },
+    {
+      "symbol": "us.DJI",
+      "name": "道琼斯工业平均",
+      "type": "index",
+      "market": "US",
+      "data_start": "2025-05-02",
+      "data_end": "2026-08-11",
+      "data_points": 320,
       "status": "ok"
     }
   ]
